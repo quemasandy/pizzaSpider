@@ -1,0 +1,200 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-78.4820, -0.1807]
+      },
+      "properties": {
+        "name": "Quito Pizza Company",
+        "address": "Av. Eloy Alfaro N34-94 y Catalina Aldaz",
+        "type": "New York Style Pizza",
+        "shopCode": "QPC001"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-78.4756, -0.1685]
+      },
+      "properties": {
+        "name": "Pizzeria El Hornero - Quicentro",
+        "address": "Av República de El Salvador N36-149",
+        "type": "Italian Chain",
+        "shopCode": "EH001"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-78.4632, -0.1432]
+      },
+      "properties": {
+        "name": "El Hornero - Cumbayá",
+        "address": "Cumbayá sector",
+        "type": "Italian Chain",
+        "shopCode": "EH002"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-78.4912, -0.1807]
+      },
+      "properties": {
+        "name": "Pizza SA - Amazonas",
+        "address": "Amazonas Ave, Parque Carolina",
+        "type": "Local Chain",
+        "shopCode": "PSA001"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-78.5015, -0.2201]
+      },
+      "properties": {
+        "name": "Pizza SA - Historic Center",
+        "address": "Historic Center",
+        "type": "Local Chain",
+        "shopCode": "PSA002"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-78.4598, -0.1521]
+      },
+      "properties": {
+        "name": "Luccios Pizzeria",
+        "address": "Julio Arellano y De Las Alondras",
+        "type": "Local",
+        "shopCode": "LUC001"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-78.4834, -0.1678]
+      },
+      "properties": {
+        "name": "Papa John's - 6 de Diciembre",
+        "address": "6 de Diciembre Ave",
+        "type": "International Chain",
+        "shopCode": "PJ001"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-78.4798, -0.1798]
+      },
+      "properties": {
+        "name": "Papa John's - Eloy Alfaro",
+        "address": "Eloy Alfaro Ave",
+        "type": "International Chain",
+        "shopCode": "PJ002"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-78.4867, -0.1934]
+      },
+      "properties": {
+        "name": "Papa John's - Brasil",
+        "address": "Brasil Ave",
+        "type": "International Chain",
+        "shopCode": "PJ003"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-78.4712, -0.1634]
+      },
+      "properties": {
+        "name": "Cosa Nostra Trattoria Pizzeria",
+        "address": "República del Salvador",
+        "type": "Italian",
+        "shopCode": "CN001"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-78.4523, -0.1045]
+      },
+      "properties": {
+        "name": "Pizza Hut - Carapungo",
+        "address": "Carapungo sector",
+        "type": "International Chain",
+        "shopCode": "PH001"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-78.4887, -0.1756]
+      },
+      "properties": {
+        "name": "Sinners Brewery & Pizza",
+        "address": "Craft brewery district",
+        "type": "Brewery Pizza",
+        "shopCode": "SIN001"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-78.4923, -0.1923]
+      },
+      "properties": {
+        "name": "Roy's Pizzeria",
+        "address": "Gastropub location",
+        "type": "Gastropub",
+        "shopCode": "ROY001"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-78.4734, -0.1567]
+      },
+      "properties": {
+        "name": "El Hornero - Gonzalez Suárez",
+        "address": "Gonzalez Suárez Ave",
+        "type": "Italian Chain",
+        "shopCode": "EH003"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-78.4601, -0.1489]
+      },
+      "properties": {
+        "name": "El Hornero - Isla Floreana",
+        "address": "Isla Floreana sector",
+        "type": "Italian Chain",
+        "shopCode": "EH004"
+      }
+    }
+  ]
+}
