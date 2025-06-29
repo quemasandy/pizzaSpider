@@ -5,16 +5,251 @@
 <title>Quito Pizza Finder</title>
 <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
 <link href="https://api.mapbox.com/mapbox-gl-js/v2.9.0-beta.2/mapbox-gl.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
 <script src="https://api.mapbox.com/mapbox-gl-js/v2.9.0-beta.2/mapbox-gl.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <style>
-body { margin: 0; padding: 0; }
-#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+body { 
+    margin: 0; 
+    padding: 0; 
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    background: #000;
+    overflow: hidden;
+}
+#map { 
+    position: absolute; 
+    top: 0; 
+    bottom: 0; 
+    width: 100%; 
+    z-index: 10;
+}
+
+/* Cyberpunk HUD Overlay */
+.hud-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 100;
+    color: #00FFFF;
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+}
+
+/* Corner Frames */
+.corner-frame {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    border: 2px solid #00FFFF;
+    box-shadow: 0 0 20px #00FFFF, inset 0 0 20px rgba(0,255,255,0.1);
+    animation: pulse-glow 2s ease-in-out infinite alternate;
+}
+
+.corner-tl { top: 20px; left: 20px; border-right: none; border-bottom: none; }
+.corner-tr { top: 20px; right: 20px; border-left: none; border-bottom: none; }
+.corner-bl { bottom: 20px; left: 20px; border-right: none; border-top: none; }
+.corner-br { bottom: 20px; right: 20px; border-left: none; border-top: none; }
+
+/* Status Bars */
+.status-bar {
+    position: absolute;
+    background: rgba(0,0,0,0.8);
+    border: 1px solid #00FFFF;
+    padding: 8px 16px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    box-shadow: 0 0 15px rgba(0,255,255,0.5);
+    text-transform: uppercase;
+}
+
+.status-top {
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 3px solid #FFFF00;
+    animation: data-stream 3s linear infinite;
+}
+
+.status-encryption {
+    top: 20px;
+    left: 120px;
+    background: rgba(0,0,0,0.9);
+    border-color: #FF00FF;
+    color: #FF00FF;
+}
+
+.coords {
+    bottom: 20px;
+    left: 120px;
+    background: rgba(0,0,0,0.9);
+    font-size: 10px;
+    border-color: #00FFFF;
+}
+
+.timestamp {
+    bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.9);
+    font-size: 10px;
+    border-color: #FFFF00;
+    color: #FFFF00;
+}
+
+.data-stream {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 200px;
+    height: 300px;
+    background: rgba(0,0,0,0.9);
+    border: 1px solid #00FFFF;
+    padding: 10px;
+    font-size: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(0,255,255,0.3);
+}
+
+/* Scan Lines */
+.scan-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,255,255,0.03) 2px,
+        rgba(0,255,255,0.03) 4px
+    );
+    animation: scan-move 8s linear infinite;
+    pointer-events: none;
+}
+
+/* Tooltip */
+.cyberpunk-tooltip {
+    position: absolute;
+    background: rgba(0,0,0,0.95);
+    border: 2px solid #00FFFF;
+    padding: 12px;
+    font-size: 11px;
+    color: #00FFFF;
+    box-shadow: 0 0 25px rgba(0,255,255,0.6), inset 0 0 15px rgba(0,255,255,0.1);
+    z-index: 200;
+    pointer-events: none;
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: 0.5px;
+    border-radius: 0;
+    transform: translateX(-50%) translateY(-100%);
+    margin-top: -10px;
+}
+
+.cyberpunk-tooltip::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 8px solid transparent;
+    border-top-color: #00FFFF;
+}
+
+.cyberpunk-tooltip .distance { color: #FF00FF; }
+.cyberpunk-tooltip .time { color: #FFFF00; }
+
+/* Animations */
+@keyframes pulse-glow {
+    0% { box-shadow: 0 0 20px #00FFFF, inset 0 0 20px rgba(0,255,255,0.1); }
+    100% { box-shadow: 0 0 35px #00FFFF, inset 0 0 25px rgba(0,255,255,0.2); }
+}
+
+@keyframes scan-move {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100vh); }
+}
+
+@keyframes data-stream {
+    0% { border-left-color: #FFFF00; }
+    33% { border-left-color: #00FFFF; }
+    66% { border-left-color: #FF00FF; }
+    100% { border-left-color: #FFFF00; }
+}
+
+@keyframes glitch {
+    0% { transform: translateX(0); }
+    20% { transform: translateX(-2px); }
+    40% { transform: translateX(2px); }
+    60% { transform: translateX(-1px); }
+    80% { transform: translateX(1px); }
+    100% { transform: translateX(0); }
+}
+
+.glitch {
+    animation: glitch 0.3s ease-in-out;
+}
+
+/* Pulse animations for cyberpunk effect */
+@keyframes pulse-line {
+    0% { 
+        filter: drop-shadow(0 0 5px currentColor);
+        opacity: 0.8;
+    }
+    50% { 
+        filter: drop-shadow(0 0 20px currentColor) drop-shadow(0 0 35px currentColor);
+        opacity: 1;
+    }
+    100% { 
+        filter: drop-shadow(0 0 5px currentColor);
+        opacity: 0.8;
+    }
+}
+
+@keyframes pulse-point {
+    0% { 
+        filter: drop-shadow(0 0 8px currentColor);
+    }
+    50% { 
+        filter: drop-shadow(0 0 25px currentColor) drop-shadow(0 0 40px currentColor);
+    }
+    100% { 
+        filter: drop-shadow(0 0 8px currentColor);
+    }
+}
+
 </style>
 </head>
 <body>
 <div id="map"></div>
+
+<!-- Cyberpunk HUD Overlay -->
+<div class="hud-overlay">
+    <!-- Corner Frames -->
+    <div class="corner-frame corner-tl"></div>
+    <div class="corner-frame corner-tr"></div>
+    <div class="corner-frame corner-bl"></div>
+    <div class="corner-frame corner-br"></div>
+    
+    <!-- Status Bars -->
+    <div class="status-bar status-top">PIZZA FINDER ACTIVATED</div>
+    <div class="status-bar status-encryption">🔒 ENCRYPTED</div>
+    <div class="status-bar coords" id="coords-display">GPS: --- , ---</div>
+    <div class="status-bar timestamp" id="timestamp-display">UTC: --:--:--</div>
+    
+    <!-- Data Stream -->
+    <div class="data-stream">
+        <div style="color: #FF00FF; margin-bottom: 10px;">DATA STREAM</div>
+        <div id="stream-content" style="font-size: 7px; line-height: 1.2;"></div>
+    </div>
+    
+    <!-- Scan Lines -->
+    <div class="scan-lines"></div>
+</div>
 <script>
 
 let initLoad = true;
@@ -170,7 +405,9 @@ function buildSpoke(airports, point) {
 
         const nearestLine = turf.lineString([point.geometry.coordinates, nearest.geometry.coordinates]);
         
+        nearest.properties = {...nearest.properties, index: i-1};
         nearestAirports.features.push(nearest);
+        nearestLine.properties = { index: i-1 };
         nearestAirportLines.features.push(nearestLine);
 
         const index = cleanedAirports.features.findIndex(n => n.properties.shopCode === nearest.properties.shopCode)
@@ -279,7 +516,12 @@ function addLayers(airports, nearest, route) {
             'line-cap': 'round'
         },
         'paint': {
-            'line-color': '#39FF14',
+            'line-color': [
+                'case',
+                ['==', ['%', ['get', 'index'], 3], 0], '#00FFFF',
+                ['==', ['%', ['get', 'index'], 3], 1], '#FF00FF', 
+                '#FFFF00'
+            ],
             'line-width': [
                 'interpolate',
                 ['linear'],
@@ -317,7 +559,9 @@ function addLayers(airports, nearest, route) {
             ],
             'circle-opacity': 1,
             'circle-blur': 0,
-            'circle-color': '#00BFFF'
+            'circle-color': '#00FFFF',
+            'circle-stroke-width': 2,
+            'circle-stroke-color': '#00FFFF'
         }
     });
 
@@ -337,7 +581,14 @@ function addLayers(airports, nearest, route) {
             ],
             'circle-opacity': 1,
             'circle-blur': 0,
-            'circle-color': '#FFFFFF'
+            'circle-color': [
+                'case',
+                ['==', ['%', ['get', 'index'], 3], 0], '#00FFFF',
+                ['==', ['%', ['get', 'index'], 3], 1], '#FF00FF',
+                '#FFFF00'
+            ],
+            'circle-stroke-width': 3,
+            'circle-stroke-color': '#FFFFFF'
         }
     });
 
@@ -353,12 +604,125 @@ function addLayers(airports, nearest, route) {
             'text-size': 12
         },
         'paint': {
-            'text-color': '#FFFFFF',
-            'text-halo-color': '#003366',
-            'text-halo-width': 2
+            'text-color': '#00FFFF',
+            'text-halo-color': '#000000',
+            'text-halo-width': 3
         }
     });
 }
+
+// Variables globales para tooltips
+let tooltip = null;
+let currentHoverFeature = null;
+
+// Update HUD elements
+function updateHUD() {
+    const center = map.getCenter();
+    const now = new Date();
+    
+    // Update coordinates
+    document.getElementById('coords-display').textContent = 
+        `GPS: ${center.lat.toFixed(6)}, ${center.lng.toFixed(6)}`;
+    
+    // Update timestamp
+    document.getElementById('timestamp-display').textContent = 
+        `UTC: ${now.toUTCString().split(' ')[4]}`;
+    
+    // Update data stream
+    updateDataStream();
+}
+
+// Data stream content
+function updateDataStream() {
+    const streamContent = document.getElementById('stream-content');
+    const messages = [
+        '> SCANNING NETWORK...',
+        '> LOCATION ACQUIRED',
+        '> ANALYZING TARGETS',
+        '> CALCULATING ROUTES',
+        '> ENCRYPTION ACTIVE',
+        '> SIGNAL STRENGTH: 98%',
+        '> SURVEILLANCE MODE: ON',
+        '> DATA PACKETS: 1247',
+        '> UPLINK STATUS: SECURE'
+    ];
+    
+    streamContent.innerHTML = messages.map(msg => 
+        `<div style="color: ${Math.random() > 0.5 ? '#00FFFF' : '#FF00FF'}; margin: 2px 0;">${msg}</div>`
+    ).join('');
+}
+
+// Create tooltip
+function createTooltip(feature, lngLat) {
+    if (tooltip) {
+        tooltip.remove();
+    }
+    
+    const center = map.getCenter();
+    const distance = turf.distance(
+        turf.point([center.lng, center.lat]),
+        turf.point(feature.geometry.coordinates),
+        { units: 'meters' }
+    );
+    
+    const walkTime = Math.round(distance / 5000 * 60); // 5 km/h
+    const driveTime = Math.round(distance / 30000 * 60); // 30 km/h urban
+    
+    tooltip = document.createElement('div');
+    tooltip.className = 'cyberpunk-tooltip';
+    tooltip.innerHTML = `
+        <div style="color: #00FFFF; font-weight: bold; margin-bottom: 5px;">${feature.properties.name}</div>
+        <div class="distance">📍 ${Math.round(distance)}m</div>
+        <div class="time">🚶 ${walkTime} min | 🚗 ${driveTime} min</div>
+    `;
+    
+    const point = map.project(lngLat);
+    tooltip.style.left = point.x + 'px';
+    tooltip.style.top = point.y + 'px';
+    
+    document.body.appendChild(tooltip);
+}
+
+// Inicializar eventos del mapa después de que se cargue
+map.on('load', () => {
+    // Mouse events for tooltips
+    map.on('mouseenter', 'globe-newPoint', (e) => {
+        map.getCanvas().style.cursor = 'pointer';
+        currentHoverFeature = e.features[0];
+        createTooltip(e.features[0], e.lngLat);
+        
+        // Add glitch effect occasionally
+        if (Math.random() < 0.3) {
+            const labels = document.querySelectorAll('.mapboxgl-marker');
+            labels.forEach(label => {
+                label.classList.add('glitch');
+                setTimeout(() => label.classList.remove('glitch'), 300);
+            });
+        }
+    });
+
+    map.on('mouseleave', 'globe-newPoint', () => {
+        map.getCanvas().style.cursor = '';
+        if (tooltip) {
+            tooltip.remove();
+            tooltip = null;
+        }
+        currentHoverFeature = null;
+    });
+
+    map.on('mousemove', (e) => {
+        if (currentHoverFeature && tooltip) {
+            const point = map.project(e.lngLat);
+            tooltip.style.left = point.x + 'px';
+            tooltip.style.top = point.y + 'px';
+        }
+    });
+});
+
+// Update HUD every second
+setInterval(updateHUD, 1000);
+updateHUD();
+
 </script>
 </body>
 </html>
