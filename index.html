@@ -222,6 +222,111 @@ body {
     }
 }
 
+/* --- MOBILE RESPONSIVE CYBERPUNK HUD --- */
+@media (max-width: 600px) {
+  #map {
+    top: 0 !important;
+    bottom: 0 !important;
+    height: 100vh !important;
+    width: 100vw !important;
+    position: fixed !important;
+    z-index: 1;
+  }
+  .hud-overlay {
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 10;
+  }
+  .corner-frame {
+    width: 40px;
+    height: 40px;
+    border-width: 1px;
+    box-shadow: 0 0 8px #00FFFF, inset 0 0 8px rgba(0,255,255,0.1);
+  }
+  .status-bar {
+    font-size: 10px;
+    padding: 4px 8px;
+    max-width: 90vw;
+    box-sizing: border-box;
+  }
+  .status-top {
+    top: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 60vw;
+    max-width: 95vw;
+    text-align: center;
+    border-width: 2px;
+    font-size: 12px;
+    padding: 4px 0;
+  }
+  .status-encryption {
+    top: 32px;
+    left: 8px;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-width: 2px;
+  }
+  .coords {
+    bottom: 32px;
+    left: 8px;
+    font-size: 9px;
+    padding: 2px 6px;
+    border-width: 2px;
+    background: rgba(0,0,0,0.8);
+  }
+  .timestamp {
+    bottom: 32px;
+    right: 8px;
+    font-size: 9px;
+    padding: 2px 6px;
+    border-width: 2px;
+    background: rgba(0,0,0,0.8);
+  }
+  .data-stream {
+    display: none;
+    position: fixed;
+    left: 50%;
+    bottom: 60px;
+    transform: translateX(-50%);
+    width: 92vw;
+    max-width: 340px;
+    height: 180px;
+    font-size: 9px;
+    z-index: 20;
+    border-radius: 8px;
+    padding: 8px 6px;
+    background: rgba(0,0,0,0.95);
+    box-shadow: 0 0 10px #00FFFF44;
+    overflow-y: auto;
+  }
+  .data-stream.active {
+    display: block;
+  }
+  .scan-lines {
+    display: none;
+  }
+  /* Botón flotante para mostrar el data stream */
+  .floating-btn {
+    position: fixed;
+    bottom: 70px;
+    right: 16px;
+    z-index: 30;
+    background: #00FFFF;
+    color: #000;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    box-shadow: 0 2px 8px #000a;
+    border: none;
+    pointer-events: auto;
+  }
+}
 </style>
 </head>
 <body>
@@ -241,12 +346,13 @@ body {
     <div class="status-bar coords" id="coords-display">GPS: --- , ---</div>
     <div class="status-bar timestamp" id="timestamp-display">UTC: --:--:--</div>
     
-    <!-- Data Stream -->
-    <div class="data-stream">
+    <!-- Data Stream (colapsable en móvil) -->
+    <div class="data-stream" id="dataStreamPanel">
         <div style="color: #FF00FF; margin-bottom: 10px;">DATA STREAM</div>
         <div id="stream-content" style="font-size: 7px; line-height: 1.2;"></div>
     </div>
-    
+    <!-- Botón flotante solo visible en móvil -->
+    <button class="floating-btn" id="toggleDataStreamBtn" style="display:none;">☰</button>
     <!-- Scan Lines -->
     <div class="scan-lines"></div>
 </div>
@@ -722,6 +828,23 @@ map.on('load', () => {
 // Update HUD every second
 setInterval(updateHUD, 1000);
 updateHUD();
+
+// Mostrar botón flotante solo en móvil
+function checkMobileHUD() {
+  const btn = document.getElementById('toggleDataStreamBtn');
+  if (window.innerWidth <= 600) {
+    btn.style.display = 'flex';
+  } else {
+    btn.style.display = 'none';
+    document.getElementById('dataStreamPanel').classList.remove('active');
+  }
+}
+window.addEventListener('resize', checkMobileHUD);
+window.addEventListener('DOMContentLoaded', checkMobileHUD);
+
+document.getElementById('toggleDataStreamBtn').onclick = function() {
+  document.getElementById('dataStreamPanel').classList.toggle('active');
+};
 
 </script>
 </body>

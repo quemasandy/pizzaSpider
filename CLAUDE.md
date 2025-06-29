@@ -4,38 +4,58 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a "pizzaSpider" project - an interactive map visualization that creates dynamic hub-and-spoke maps using Turf.js and Mapbox. The project was originally built for Greggs locations but has been adapted to show Quito pizzerias.
+This is a "pizzaSpider" project - a cyberpunk-themed interactive map visualization that creates dynamic hub-and-spoke maps showing pizza locations with animated "tentacle" connections. The application uses real-time geolocation and live API data to find nearby pizzerias.
 
 ## Architecture
 
-- **Single HTML file**: `index.html` contains all the HTML, CSS, and JavaScript
-- **Data directory**: Contains GeoJSON files with location data for mapping
+- **Single HTML file**: `index.html` contains all HTML, CSS, and JavaScript in one file
+- **Data directory**: Contains legacy GeoJSON files (not currently used in main functionality)
 - **Client-side only**: Pure frontend application with no build process or server requirements
+- **Real-time data**: Uses OpenStreetMap Overpass API for live pizza location data
 
 ## Key Components
 
-- **Map visualization**: Uses Mapbox GL JS v2.9.0-beta.2 for rendering
-- **Geospatial calculations**: Turf.js for finding nearest points and creating line features
-- **Data loading**: D3.js v4 for loading GeoJSON data
-- **Core algorithm**: Finds 10 nearest locations to the current map center and draws connecting lines
+- **Map visualization**: Mapbox GL JS v2.9.0-beta.2 with dark cyberpunk theme
+- **Geospatial calculations**: Turf.js for distance calculations and nearest point finding
+- **Data loading**: D3.js v4 (loaded but primarily for legacy compatibility)
+- **Real-time location**: Browser geolocation API with fallback to Quito coordinates
+- **Cyberpunk UI**: Custom HUD overlay with scan lines, status bars, and animated elements
+- **Core algorithm**: Finds 10 nearest pizza locations to current map center and draws animated connecting lines
 
-## Data Structure
+## Data Flow
 
-The GeoJSON files in `/data/` must follow this structure:
-- Each feature requires a unique `shopCode` property (referenced in line 81 of index.html)
-- Features should have `name`, `address`, and `type` properties for display
-- Coordinates should be in [longitude, latitude] format
+1. **Location acquisition**: Uses `navigator.geolocation` to get user's current position
+2. **API queries**: Calls OpenStreetMap Overpass API to search for pizzerias within 25km radius
+3. **Data processing**: Converts Overpass response to GeoJSON format with standardized properties
+4. **Visualization**: Creates animated tentacle-like connections between user location and nearest 10 pizzerias
+5. **Dynamic updates**: Refreshes data when user moves map center by more than 5km
 
-## Development Notes
+## Development Commands
 
-- **No build process**: Simply open `index.html` in a browser or serve via HTTP server
-- **Data updates**: Replace GeoJSON files in `/data/` directory and update the filename reference in index.html line 36
-- **Map configuration**: Mapbox access token is hardcoded (line 22), uses MapTiler style (line 25)
-- **Center point**: Currently configured for Quito, Ecuador coordinates (line 26)
-- **Unique identifier**: When adapting for new datasets, ensure the `shopCode` property name matches the reference in line 81
+- **Local development**: Open `index.html` directly in browser or serve via HTTP server
+- **Testing location**: Use browser dev tools to simulate different geographic locations
+- **API debugging**: Monitor Network tab for Overpass API calls (overpass-api.de)
 
-## API Keys
+## Key Implementation Details
 
-The project uses:
-- Mapbox access token (currently exposed in code)
-- MapTiler API key for map styles (currently exposed in code)
+- **Overpass query**: Searches for `amenity=restaurant` with `cuisine~pizza` and `shop=pizza`
+- **Geolocation fallback**: Falls back to Quito, Ecuador (-78.4678, -0.1807) if location unavailable
+- **Animation system**: Custom tentacle animation with 20-step interpolation using `easeInOutSine`
+- **Update threshold**: Only refreshes pizza data when map moves >5km (approximately 5 minutes driving)
+- **Unique identifiers**: Uses `OSM${element.id}` format for `shopCode` property
+- **Color cycling**: Lines and points cycle through cyan (#00FFFF), magenta (#FF00FF), and yellow (#FFFF00)
+
+## API Configuration
+
+- **Mapbox access token**: Hardcoded in line 257 (ajrae account)
+- **Map style**: Uses `mapbox://styles/mapbox/dark-v11` for cyberpunk aesthetic
+- **Overpass API**: Uses public instance at `https://overpass-api.de/api/interpreter`
+- **No API keys needed**: OpenStreetMap Overpass API is free and doesn't require authentication
+
+## Cyberpunk UI Elements
+
+- **HUD overlay**: Corner frames, status bars, coordinates display, timestamp
+- **Data stream**: Simulated terminal output with random color cycling
+- **Scan lines**: Animated scan effect across entire viewport
+- **Tooltips**: Custom cyberpunk-styled popups with distance and travel time calculations
+- **Glitch effects**: Random glitch animations triggered on hover events
