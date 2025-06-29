@@ -223,7 +223,78 @@ body {
 }
 
 /* --- MOBILE RESPONSIVE CYBERPUNK HUD --- */
-@media (max-width: 600px) {
+/* Large Phones and Small Tablets (480px - 768px) */
+@media (max-width: 768px) and (min-width: 481px) {
+  #map {
+    top: 0 !important;
+    bottom: 0 !important;
+    height: 100vh !important;
+    width: 100vw !important;
+    position: fixed !important;
+    z-index: 1;
+  }
+  .hud-overlay {
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 10;
+  }
+  .corner-frame {
+    width: 60px;
+    height: 60px;
+  }
+  .status-bar {
+    font-size: 11px;
+    padding: 6px 12px;
+    max-width: 85vw;
+    box-sizing: border-box;
+  }
+  .status-top {
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 50vw;
+    max-width: 90vw;
+    text-align: center;
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+  .status-bar.status-encryption {
+    top: 55px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 11px;
+    padding: 4px 10px;
+    max-width: 70vw;
+    text-align: center;
+  }
+  .coords {
+    bottom: 50px;
+    left: 12px;
+    font-size: 10px;
+    padding: 4px 8px;
+  }
+  .timestamp {
+    bottom: 50px;
+    right: 12px;
+    font-size: 10px;
+    padding: 4px 8px;
+  }
+  .data-stream {
+    right: 15px;
+    top: 110px;
+    width: 180px;
+    height: 220px;
+    font-size: 9px;
+    padding: 8px;
+  }
+  .floating-btn {
+    display: none;
+  }
+}
+
+/* Medium Mobile Devices (360px - 480px) */
+@media (max-width: 480px) and (min-width: 361px) {
   #map {
     top: 0 !important;
     bottom: 0 !important;
@@ -248,45 +319,47 @@ body {
     box-sizing: border-box;
   }
   .status-top {
-    top: 4px;
+    top: 6px;
     left: 50%;
     transform: translateX(-50%);
     min-width: 60vw;
-    max-width: 95vw;
+    max-width: 94vw;
     text-align: center;
     border-width: 2px;
     font-size: 12px;
-    padding: 4px 0;
+    padding: 5px 8px;
   }
   .status-bar.status-encryption {
-    top: 48px;
+    top: 50px;
     left: 50%;
     transform: translateX(-50%);
     font-size: 10px;
     padding: 3px 8px;
-    min-width: unset;
     max-width: 80vw;
     border-width: 2px;
     text-align: center;
-    background: rgba(0,0,0,0.9);
-    border-color: #FF00FF;
-    color: #FF00FF;
   }
   .coords {
-    bottom: 45px;
+    bottom: 50px;
     left: 8px;
     font-size: 9px;
-    padding: 2px 6px;
+    padding: 3px 6px;
     border-width: 2px;
-    background: rgba(0,0,0,0.8);
+    max-width: 45vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   .timestamp {
-    bottom: 45px;
+    bottom: 50px;
     right: 8px;
     font-size: 9px;
-    padding: 2px 6px;
+    padding: 3px 6px;
     border-width: 2px;
-    background: rgba(0,0,0,0.8);
+    max-width: 45vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   .data-stream {
     display: none;
@@ -294,9 +367,9 @@ body {
     left: 50%;
     bottom: 100px;
     transform: translateX(-50%);
-    width: 92vw;
-    max-width: 340px;
-    height: 180px;
+    width: 90vw;
+    max-width: 320px;
+    height: 170px;
     font-size: 9px;
     z-index: 20;
     border-radius: 8px;
@@ -311,11 +384,122 @@ body {
   .scan-lines {
     display: none;
   }
-  /* Botón flotante para mostrar el data stream */
   .floating-btn {
     position: fixed;
-    bottom: 85px;
-    right: 19px;
+    bottom: 90px;
+    right: 15px;
+    z-index: 50;
+    background: #00FFFF;
+    color: #000;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    box-shadow: 0 3px 12px rgba(0,255,255,0.4);
+    border: 2px solid #000;
+    pointer-events: auto;
+    font-weight: bold;
+  }
+}
+
+/* Small Mobile Devices (320px - 360px) */
+@media (max-width: 360px) {
+  #map {
+    top: 0 !important;
+    bottom: 0 !important;
+    height: 100vh !important;
+    width: 100vw !important;
+    position: fixed !important;
+    z-index: 1;
+  }
+  .hud-overlay {
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 10;
+  }
+  .corner-frame {
+    display: none !important;
+  }
+  .status-bar {
+    font-size: 9px;
+    padding: 3px 6px;
+    max-width: 92vw;
+    box-sizing: border-box;
+  }
+  .status-top {
+    top: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 65vw;
+    max-width: 96vw;
+    text-align: center;
+    border-width: 1px;
+    font-size: 11px;
+    padding: 4px 6px;
+  }
+  .status-bar.status-encryption {
+    top: 42px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 9px;
+    padding: 2px 6px;
+    max-width: 75vw;
+    border-width: 1px;
+    text-align: center;
+  }
+  .coords {
+    bottom: 45px;
+    left: 4px;
+    font-size: 8px;
+    padding: 2px 4px;
+    border-width: 1px;
+    max-width: 46vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .timestamp {
+    bottom: 45px;
+    right: 4px;
+    font-size: 8px;
+    padding: 2px 4px;
+    border-width: 1px;
+    max-width: 46vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .data-stream {
+    display: none;
+    position: fixed;
+    left: 50%;
+    bottom: 90px;
+    transform: translateX(-50%);
+    width: 94vw;
+    max-width: 300px;
+    height: 150px;
+    font-size: 8px;
+    z-index: 20;
+    border-radius: 6px;
+    padding: 6px 4px;
+    background: rgba(0,0,0,0.96);
+    box-shadow: 0 0 8px #00FFFF44;
+    overflow-y: auto;
+  }
+  .data-stream.active {
+    display: block;
+  }
+  .scan-lines {
+    display: none;
+  }
+  .floating-btn {
+    position: fixed;
+    bottom: 80px;
+    right: 12px;
     z-index: 50;
     background: #00FFFF;
     color: #000;
@@ -325,10 +509,211 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
-    box-shadow: 0 2px 8px #000a;
-    border: none;
+    font-size: 1.4rem;
+    box-shadow: 0 2px 10px rgba(0,255,255,0.3);
+    border: 1px solid #000;
     pointer-events: auto;
+    font-weight: bold;
+  }
+}
+
+/* Very Small Mobile Devices (below 320px) */
+@media (max-width: 319px) {
+  #map {
+    top: 0 !important;
+    bottom: 0 !important;
+    height: 100vh !important;
+    width: 100vw !important;
+    position: fixed !important;
+    z-index: 1;
+  }
+  .hud-overlay {
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 10;
+  }
+  .corner-frame {
+    display: none !important;
+  }
+  .status-bar {
+    font-size: 8px;
+    padding: 2px 4px;
+    max-width: 94vw;
+    box-sizing: border-box;
+  }
+  .status-top {
+    top: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 70vw;
+    max-width: 98vw;
+    text-align: center;
+    border-width: 1px;
+    font-size: 10px;
+    padding: 3px 4px;
+  }
+  .status-bar.status-encryption {
+    top: 36px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 8px;
+    padding: 2px 4px;
+    max-width: 70vw;
+    border-width: 1px;
+    text-align: center;
+  }
+  .coords {
+    bottom: 40px;
+    left: 2px;
+    font-size: 7px;
+    padding: 1px 3px;
+    border-width: 1px;
+    max-width: 47vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .timestamp {
+    bottom: 40px;
+    right: 2px;
+    font-size: 7px;
+    padding: 1px 3px;
+    border-width: 1px;
+    max-width: 47vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .data-stream {
+    display: none;
+    position: fixed;
+    left: 50%;
+    bottom: 80px;
+    transform: translateX(-50%);
+    width: 96vw;
+    max-width: 280px;
+    height: 130px;
+    font-size: 7px;
+    z-index: 20;
+    border-radius: 4px;
+    padding: 4px 3px;
+    background: rgba(0,0,0,0.97);
+    box-shadow: 0 0 6px #00FFFF44;
+    overflow-y: auto;
+  }
+  .data-stream.active {
+    display: block;
+  }
+  .scan-lines {
+    display: none;
+  }
+  .floating-btn {
+    position: fixed;
+    bottom: 70px;
+    right: 8px;
+    z-index: 50;
+    background: #00FFFF;
+    color: #000;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    box-shadow: 0 2px 8px rgba(0,255,255,0.3);
+    border: 1px solid #000;
+    pointer-events: auto;
+    font-weight: bold;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .floating-btn:active {
+    transform: scale(0.95);
+    box-shadow: 0 1px 4px rgba(0,255,255,0.2);
+  }
+  .floating-btn:hover {
+    box-shadow: 0 4px 16px rgba(0,255,255,0.5);
+  }
+}
+
+/* Landscape orientation adjustments */
+@media screen and (orientation: landscape) and (max-height: 500px) {
+  .status-top {
+    top: 2px !important;
+    font-size: 10px !important;
+    padding: 2px 6px !important;
+  }
+  .status-bar.status-encryption {
+    top: 32px !important;
+    font-size: 8px !important;
+    padding: 1px 4px !important;
+  }
+  .coords, .timestamp {
+    bottom: 8px !important;
+    font-size: 7px !important;
+    padding: 1px 3px !important;
+  }
+  .floating-btn {
+    bottom: 12px !important;
+    right: 12px !important;
+    width: 36px !important;
+    height: 36px !important;
+    font-size: 1.1rem !important;
+  }
+  .data-stream {
+    bottom: 50px !important;
+    height: 120px !important;
+    width: 85vw !important;
+  }
+  .corner-frame {
+    display: none !important;
+  }
+}
+
+/* High DPI screen adjustments */
+@media screen and (-webkit-min-device-pixel-ratio: 2) and (max-width: 480px) {
+  .status-bar {
+    border-width: 0.5px;
+  }
+  .floating-btn {
+    border-width: 0.5px;
+  }
+  .cyberpunk-tooltip {
+    border-width: 1px;
+  }
+}
+
+/* Touch-friendly interactions */
+@media (hover: none) and (pointer: coarse) {
+  .floating-btn {
+    min-height: 44px;
+    min-width: 44px;
+    font-size: 1.4rem;
+  }
+  
+  .status-bar {
+    -webkit-tap-highlight-color: rgba(0,255,255,0.2);
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  
+  /* Improve touch targets for small screens */
+  .cyberpunk-tooltip {
+    font-size: 12px !important;
+    padding: 8px 10px !important;
+    min-width: 120px;
+    text-align: center;
+  }
+  
+  /* Prevent zoom on double tap */
+  .hud-overlay {
+    touch-action: manipulation;
+  }
+  
+  #map {
+    touch-action: pan-x pan-y;
   }
 }
 </style>
@@ -833,21 +1218,71 @@ map.on('load', () => {
 setInterval(updateHUD, 1000);
 updateHUD();
 
-// Mostrar botón flotante solo en móvil
+// Responsive HUD management for different screen sizes
 function checkMobileHUD() {
   const btn = document.getElementById('toggleDataStreamBtn');
-  if (window.innerWidth <= 600) {
-    btn.style.display = 'flex';
-  } else {
+  const dataStream = document.getElementById('dataStreamPanel');
+  const screenWidth = window.innerWidth;
+  
+  // Large phones and tablets (768px+): Show data stream normally, hide button
+  if (screenWidth > 768) {
     btn.style.display = 'none';
-    document.getElementById('dataStreamPanel').classList.remove('active');
+    dataStream.classList.remove('active');
+    dataStream.style.display = 'block';
+  }
+  // Medium-large phones (481px-768px): Show data stream, hide button  
+  else if (screenWidth > 480) {
+    btn.style.display = 'none';
+    dataStream.classList.remove('active');
+    dataStream.style.display = 'block';
+  }
+  // Small-medium phones (361px-480px): Hide data stream, show button
+  else if (screenWidth > 360) {
+    btn.style.display = 'flex';
+    dataStream.style.display = 'none';
+  }
+  // Small phones (320px-360px): Hide data stream, show button
+  else if (screenWidth > 319) {
+    btn.style.display = 'flex';
+    dataStream.style.display = 'none';
+  }
+  // Very small phones (<320px): Hide data stream, show smaller button
+  else {
+    btn.style.display = 'flex';
+    dataStream.style.display = 'none';
   }
 }
-window.addEventListener('resize', checkMobileHUD);
+
+// Enhanced resize handler with debouncing
+let resizeTimeout;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(checkMobileHUD, 100);
+});
+
 window.addEventListener('DOMContentLoaded', checkMobileHUD);
 
+// Toggle data stream with improved UX
 document.getElementById('toggleDataStreamBtn').onclick = function() {
-  document.getElementById('dataStreamPanel').classList.toggle('active');
+  const dataStream = document.getElementById('dataStreamPanel');
+  const isActive = dataStream.classList.contains('active');
+  
+  if (isActive) {
+    dataStream.classList.remove('active');
+    this.style.transform = 'scale(1)';
+  } else {
+    dataStream.classList.add('active');
+    this.style.transform = 'scale(1.1)';
+    // Auto-hide after 10 seconds on very small screens
+    if (window.innerWidth <= 360) {
+      setTimeout(() => {
+        if (dataStream.classList.contains('active')) {
+          dataStream.classList.remove('active');
+          this.style.transform = 'scale(1)';
+        }
+      }, 10000);
+    }
+  }
 };
 
 </script>
