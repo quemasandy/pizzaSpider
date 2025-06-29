@@ -1,14 +1,44 @@
-# Steak bake spidermap 
+# 🍕 Pizza Finder Cyberpunk
 
-This little map experiment uses [Turf.js](https://turfjs.org/) and [Mapbox](https://www.mapbox.com/) to create dynamic hub and spoke maps. It uses code written by [William B. Davis](https://twitter.com/willy_maps) and then adapted by [Garrett Dash Nelson](https://twitter.com/en_dash) - and then lightly tweaked by me. As you can probably tell, I know just enough to make this work (with a little bit of extra help from Garrett). I compiled the original Greggs location list myself, using data from the Food Standards Agency, but I have now replaced this with data from Greggs - thanks to [Jason Cartwright](https://twitter.com/jasoncartwright) for pointing me to the [source](https://production-digital.greggs.co.uk/api/v1.0/shops).
+A futuristic, cyberpunk-themed web app to help you find the nearest pizzerias in your city, visualized on an interactive map with animated "tentacle" connections and a stylish HUD overlay.
 
-If you want to make your own, all you need to do is put a json file in the data folder with data you want to use, change the name of the json file in `index.html` to match the name of your own file, and then edit line 81 so that it references a unique column in your json file. 
+## 🚀 What does this project do?
 
-So, in the example below, I added `shopCode` to the `n.properties.` and `nearest.properties` variables. If you don't do this, you'll only see a single line on the map. Thanks to Garrett for pointing this out to me.
+**Pizza Finder Cyberpunk** is a web application that:
+- Uses your current location (or a default city) to search for nearby pizzerias using the OpenStreetMap Overpass API.
+- Displays the 10 closest pizza places on a Mapbox GL JS map.
+- Animates glowing lines ("tentacles") from your location to each pizzeria, creating a unique cyberpunk effect.
+- Shows a futuristic HUD overlay with real-time GPS coordinates, UTC time, and a data stream.
+- Provides interactive tooltips with distance and estimated travel time (walking/driving) to each pizzeria.
+- All in a fully static, client-side app—no backend required!
 
-`const index = cleanedAirports.features.findIndex(n => n.properties.shopCode === nearest.properties.shopCode)`
+## 🗺️ Technologies Used
 
+- [Mapbox GL JS](https://docs.mapbox.com/mapbox-gl-js/) for interactive mapping
+- [Turf.js](https://turfjs.org/) for geospatial calculations
+- [OpenStreetMap Overpass API](https://overpass-api.de/) for real-time pizza place data
+- [D3.js](https://d3js.org/) for potential data visualizations
+- Pure HTML, CSS (with cyberpunk style), and JavaScript
 
->**Note**: the Greggs location data was last updated on 11 May 2025.
+## 🌍 How to Use
 
->**Warning**: You may end up wasting lots of time playing with this.
+1. Open the app in your browser or visit [https://quemasandy.github.io/pizzaSpider/](https://quemasandy.github.io/pizzaSpider/)
+2. Allow location access for the best experience.
+3. Watch as the map centers on your position and animates the nearest pizzerias.
+4. Hover over any glowing point to see details and estimated travel times.
+
+## 📦 Deployment
+
+This project is fully static and can be deployed on [GitHub Pages](https://pages.github.com/), Netlify, Vercel, or any static hosting provider.
+
+## 🙏 Credits
+
+- **Mapbox** for the mapping platform.
+- **OpenStreetMap** for open geodata.
+- **Turf.js** and **D3.js** for geospatial and visualization tools.
+- **Cyberpunk HUD inspiration** from various open-source projects.
+- **Special thanks to [Alasdair Rae (@alasdairrae)](https://github.com/alasdairrae)** for geodata inspiration and open mapping resources.
+
+---
+
+> This project is open source and welcomes contributions!
