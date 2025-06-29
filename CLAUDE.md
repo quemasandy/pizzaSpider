@@ -59,3 +59,12 @@ This is a "pizzaSpider" project - a cyberpunk-themed interactive map visualizati
 - **Scan lines**: Animated scan effect across entire viewport
 - **Tooltips**: Custom cyberpunk-styled popups with distance and travel time calculations
 - **Glitch effects**: Random glitch animations triggered on hover events
+- **Mobile responsive**: Collapsible data stream with floating toggle button for mobile devices
+
+## Mobile Adaptations
+
+- **Responsive breakpoint**: 600px max-width triggers mobile layout
+- **UI simplifications**: Corner frames hidden, smaller fonts, adjusted positioning
+- **Data stream**: Collapsible panel with floating toggle button (☰) for mobile users
+- **Touch optimization**: Adjusted element sizes and spacing for touch interfaces
+- **Full viewport**: Map takes full screen real estate on mobile devices
